@@ -16,7 +16,7 @@ from flask import Flask, redirect, render_template, request
 app = Flask(__name__)
 app.register_blueprint(views, url_prefix="")
 
-@app.route("/", methods=["POST","GET"])
+@app.route("/", methods=["POST","GET", "DELETE"])
 def index():
     count = 1
     champ = 0
