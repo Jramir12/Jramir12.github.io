@@ -16,19 +16,15 @@ from flask import Flask, redirect, render_template, request
 app = Flask(__name__)
 app.register_blueprint(views, url_prefix="")
 
-@app.route("/")
+@app.route("/", methods=["POST", "GET"])
 def index():
-    return render_template("index.html")
-
-@app.route("/submit", methods=["POST", "GET"])
-def submit():
     count = 1
     champ = 0
     oc = 0
 
     #Author: Andrew Alcala
     #-----------------------------------------------------------------------------
-    loadout = [int(request.form['Plevel']), request.form['SubEle'], request.form['Primwep'], request.form['Secwep'], request.form['Hevwep']]
+    loadout = [int(request.form['Plevel']), request.form['SubEle'], request.form['Primwep'], request.form['Secwep'], request.form['Hevwep']]            #grabs data from user input from website
 
     #makes a list of the active weekly overcharged weapon
     overcharged = [e[3]]  
@@ -91,7 +87,8 @@ def submit():
     input = float(1 - (oc*pow*champ))
     rate = 1.1 *math.log((input)**.5) + .9                                           
     #print(rate*100)
-    return render_template("submit.html", name = 100*rate) #, name=request.form["Plevel"], sub=request.form["SubEle"], prim=request.form["Primwep"], sec=request.form["Secwep"], hev=request.form["Hevwep"]
+    return render_template("index.html", name = 100*rate) #returns the value of success 
+
 
 #  this provides the Url and runs the website
 if __name__ == '__main__':
