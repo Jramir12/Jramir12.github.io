@@ -23,7 +23,7 @@ Issues: Intergrating the python file into HTML so the code works on the website 
 
         body {
             color: #292929;     
-            font: 90% Roboto, Arial, sans-serif;
+            font: 90% Roboto, arial, sans-serif;
             font-weight: 300;
         }
 
@@ -116,6 +116,7 @@ Issues: Intergrating the python file into HTML so the code works on the website 
     Everything below this is the main parts of the website such as all of the text, Text boxs, Information about current Nightfall activity and etc.
 -->
 <body>
+
 <div id="container">
     <div id="header">
         <h1>Master Nightfall Loadout Success 
@@ -131,10 +132,10 @@ Issues: Intergrating the python file into HTML so the code works on the website 
             <p>
 
             </p>
-            <form action="/action_page.php">
-                <label for="Plevel">Power Level </label>
+            <form action="{{url_for('submit')}}" method="post">
+                <label for="Plevel">Power Level(ex: 1815) </label>
                 <input type="text" id="Plevel" name="Plevel"size="50"><br><br>
-                <label for="SubEle">Subclass Element:</label>
+                <label for="SubEle">Subclass Element(ex: solar):</label>
                 <input type="text" id="SubEle" name="SubEle"  size="50"><br><br>
                 <label for="Primwep">Primary Weapon Element/type(ex: Solar Shotgun):</label>
                 <input type="text" id="Primwep" name="Primwep" size="50"><br><br>
@@ -186,7 +187,8 @@ Issues: Intergrating the python file into HTML so the code works on the website 
             <li>25% bonus to Machine Gun damage</li>
         </ul>
     </div>
-    <div id="footer"><p>Thank You for visiting Our Website </p><p>Contact Us At: aalcala@poets.whittier.edu or Jramir12@poets.whittier.edu</p>
+    <div id="footer"><p>Thank You for visiting Our Website </p>
+        <p>Contact Us At: aalcala@poets.whittier.edu or Jramir12@poets.whittier.edu</p>
     </div>
 </div>
 <script type="text/javascript">AddFillerLink("content", "navigation", "extra")</script>
