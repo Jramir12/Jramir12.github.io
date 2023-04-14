@@ -11,6 +11,7 @@
 import math 
 import requests
 import jinja2
+#from app import x
 
 #Jonathan Ramirez
 reqUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/DestinyActivityDefinition/2103025314/"
@@ -67,11 +68,12 @@ print(d)                                                 #prints the weekly surg
 champions = []
 weapons =[]
 
-#Andrew Alcala
 #if the champion foe's is one of these add the specified weapons to a list
-if b[4] == 'Barrier':
+if 'Barrier' in b:
     champions.append(b[4])
-if b[7] == 'Unstoppable':
+if 'Unstoppable' in b:
+    champions.append(b[7])
+if 'Overload' in b:
     champions.append(b[7])
 
 for i in range(len(champions)):                                             #adds the weapons needed for each champion to then check later
@@ -81,69 +83,3 @@ for i in range(len(champions)):                                             #add
         weapons +=['Pulse', 'Sidearm']
     elif champions[i] == 'Overload':
             weapons +=['Auto', 'Submachine', 'Bow', 'Sword']
-
-count = 1
-champ = 0
-oc = 0
-
-#Author: Andrew Alcala
-#-----------------------------------------------------------------------------
-loadout = [1802, 'Solar', 'Kinetic Scout', 'Void Glaive', 'Arc Rocket']
-
-#makes a list of the active weekly overcharged weapon
-overcharged = [e[3]]  
-print("This weeks overcharged weapon is ", overcharged)                      #['Machine']
-
-#adds the weapons list using indexing to the overcharged list
-for i in range(len(weapons)):
-    overcharged.append(weapons[i])
-
-#holds the weekly (changes on a weekly basis) and seasonal (unchanging until 5/23) surge 
-elements = [c[4], d[4]]                     #['Void', 'Strand'] as of (4/7)
-mod = [1820, champions, overcharged, elements]
-
-
-for j in range(2,4):                                 #checks if champ weapons are in the loadout
-    r = loadout[j].split()                                                             #['strand', 'Glaive']
-    for i in range(len(weapons)):                           
-        if r[1] == weapons[i]:
-            champ = champ + .25
-
-sub = loadout[1]
-if sub in elements:
-    oc = oc +.15
-
-#checks if the elements or the weapon but not both from player's weapons from loadout synergize
-#if so add to a counter 
-for element in loadout[2:]:
-    x = element.split()
-    if x[0] in elements or x[1] in overcharged:
-        oc = oc +.15
-
-print(elements)                                    #prints the weekly surge (changes every Tuesday) with the seasonal; seasonal won't change until 5/23
-
-
-#takes player level and compares it to level cap to determine multiplier
-if loadout[0] >= mod[0]:                                                   #if power is at or above 1815 it will only be 100%  
-	loadout[0] = mod[0]
-	pow = 1
-if mod[0]-5 < loadout[0] <= mod[0]:
-	pow = .9
-if mod[0]-10 < loadout[0] <= mod[0]-5:
-	pow = .8
-if mod[0]-15 < loadout[0] <= mod[0]-10:
-	pow = .7
-if 0 < loadout[0] <= mod[0]-15:                                         #0 < 1802 <= 1805
-	pow = (1-(.6**2 *(loadout[0]/mod[0])))                                    #.6^2 * (1805/1820) = .356...
-
-
-if oc < 0.5:
-    oc = 1 - oc
-
-if champ < .5:
-    champ = 1 - champ
-
-#gives a probability of success based on your loadout and the API given active modifiers
-input = float(.9 - (oc*pow*champ))                                              
-rate = 1.1 *math.log((input)**.5) + .7                                           
-print(rate*100)
