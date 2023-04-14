@@ -17,7 +17,7 @@ app.register_blueprint(views, url_prefix="")
 
 @app.route("/")
 def home:
-    return rate
+    return "Hello"
 #  this provides the Url and runs the website
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
