@@ -11,7 +11,6 @@
 import math 
 import requests
 import jinja2
-from flask import Flask
 
 #Jonathan Ramirez
 reqUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/DestinyActivityDefinition/2103025314/"
