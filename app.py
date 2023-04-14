@@ -15,6 +15,9 @@ from destiny import rate
 app = Flask(__name__)
 app.register_blueprint(views, url_prefix="")
 
+@app.route("/")
+def home:
+    return rate
 #  this provides the Url and runs the website
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
