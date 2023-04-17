@@ -16,7 +16,7 @@ from flask import Flask, redirect, render_template, request
 app = Flask(__name__)
 app.register_blueprint(views, url_prefix="")
 
-@app.route("/", methods=["POST","GET"])
+@app.route("/", methods=["POST", "GET"])
 def index():
     count = 1
     champ = 0
@@ -40,7 +40,7 @@ def index():
 
 
     for j in range(2,4):                                 #checks if champ weapons are in the loadout
-        r = loadout[j].split()                                                             #['strand', 'Glaive']
+        r = loadout[j].split()                                                             #['Strand', 'Glaive']
         for i in range(len(weapons)):                           
             if r[1] == weapons[i]:
                 champ = champ + .25
@@ -60,34 +60,27 @@ def index():
 
     #print(elements)                                    #prints the weekly surge (changes every Tuesday) with the seasonal; seasonal won't change until 5/23
 
-    if oc < 0.45:
-        oc = 1 - oc
 
-    if champ <=.35:
-        champ = 2*champ
-    if champ > .5:
-        champ = champ/2
 
     #takes player level and compares it to level cap to determine multiplier
     if loadout[0] >= mod[0]:                                                   #if power is at or above 1815 it will only be 100%  
         loadout[0] = mod[0]
-        pow = 1+(1-oc)+(1-champ)
-    if mod[0]-5 < loadout[0] <= mod[0]:
-        pow = .9
-    if mod[0]-10 < loadout[0] <= mod[0]-5:
-        pow = .8
-    if mod[0]-15 < loadout[0] <= mod[0]-10:
-        pow = .7
-    if 0 < loadout[0] <= mod[0]-15:                                         #0 < 1802 <= 1805
-        pow = (1-(.6**2 *(loadout[0]/mod[0])))                                    #.6^2 * (1805/1820) = .356...
+    if mod[0]-15 < loadout[0] <= 1820:                                         #0 < 1802 <= 1805
+        pow = (1-(.6**2 *(loadout[0]/mod[0])))
+        rate = 1.1 *math.log((pow)**.5) + .7+(oc+champ)/2
+    elif 1780 < loadout[0] < mod[0] - 15:
+        pow = (.6**2 *(mod[0]/loadout[0]))
+        rate = 1-(1.1 *math.log((pow)**.5) + .7+(oc+champ)/2)
+    elif loadout[0] <= 1780:
+        rate = 0
 
 
     #print(champ)
     #gives a probability of success based on your loadout and the API given active modifiers
-    input = float(1 - (oc*pow*champ))
-    rate = 1.1 *math.log((input)**.5) + .9                                           
+
+                                               
     #print(rate*100)
-    return render_template("index.html", name = 100*rate) #returns the value of success 
+    return render_template("index.html", name = round(100*rate)) #returns the value of success 
 
 
 #  this provides the Url and runs the website
